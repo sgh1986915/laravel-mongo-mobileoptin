@@ -1,0 +1,5 @@
+suites:
+    main:
+        namespace: MobileOptin
+        psr4_prefix: MobileOptin
+        src_path: app

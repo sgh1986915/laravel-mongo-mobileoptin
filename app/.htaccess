@@ -1,0 +1,36 @@
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+    RewriteRule ^(.*)$ public/$1 [L]
+</IfModule>
+
+  Options -Indexes
+
+<FilesMatch "\.env|\.env\.example|\.gitattributes|\.gitignore|server\.php|artisan\.php|composer\.json|composer\.lock|glupfile\.js|package\.json|phpspec\.yml|phpunit\.xml|readme\.md">
+  Order allow,deny
+  Deny from all
+</FilesMatch>
+
+<Files app/*>
+    deny from all
+</Files>
+<Files bootstrap/*>
+    deny from all
+</Files>
+<Files config/*>
+    deny from all
+</Files>
+<Files database/*>
+    deny from all
+</Files>
+<Files resporces/*>
+    deny from all
+</Files>
+<Files storage/*>
+    deny from all
+</Files>
+<Files tests/*>
+    deny from all
+</Files>
+<Files vendor/*>
+    deny from all
+</Files>

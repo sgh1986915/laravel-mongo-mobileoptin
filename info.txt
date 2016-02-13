@@ -1,0 +1,13 @@
+app.mobileoptin.com
+tesha@bizlaunchequity.com
+p: VJ6tL9z7Q2ue
+
+
+ftp.mobileoptin.com
+u: mobileoptin
+p: wHLegOnKg#WjNWro
+
+http://206.221.191.50/rockmongo-47357/
+admin
+pass - 162C36057E101F76CB81
+

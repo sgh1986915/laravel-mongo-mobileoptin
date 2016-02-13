@@ -1,0 +1,191 @@
+@charset "utf-8";
+/* CSS Document */
+
+
+* { margin:0px; padding:0px; outline:none; }
+body { margin:0px; padding:0px;  font-family: 'Lato', sans-serif; font-weight: 400; color:#616161; font-size:13px;  }
+p { line-height:normal; padding-bottom:10px; }
+img { display:block; }
+
+ul { margin:0 0 0 22px; list-style:outside disc; }
+ol{ margin:0 0 0 22px; list-style:outside decimal; }
+ul li, ol li{ margin:0 0 15px; color:#adadad; font-size: 13px; line-height: 23px; background:url(../images/arrow_icon.png) 0 9px no-repeat; text-align:left; display:block; padding-left:31px; }
+ol li{ padding:0 0 0 4px; }
+
+
+a{ color:#8bc441 ; text-decoration:none; }
+a:hover{ text-decoration:underline; }
+
+.full { float:left; width:100%; padding:30px 0px; }
+.middle_section  { width:512px; margin:0 auto; }
+
+.white-bg { background:#fff; border-bottom:#a0a0a0 1px dashed; text-align:center; }
+.white-bg p{ color:#e74c3c; font-size:27px; font-weight:bold; }
+
+
+.header-bg { background:url(../images/banner_bg.png) center 0 no-repeat; text-align:center; }
+.header-bg p{ color:#fff; font-size:19px; font-weight:400; }
+.header-bg .top_txt { font-size:29px; text-transform:uppercase; color:#fff; font-weight:bold; padding-bottom:30px;  }
+
+
+.red-bg-1 { padding:0px 0px 20px;} 
+
+
+.title { font-size:25px; color:#fff; font-weight:400; padding-bottom:20px; margin-bottom:20px; background:url(../images/top_line.png) center bottom no-repeat; }
+h1 { font-size:25px; text-transform:uppercase; color:#fff; font-weight:700; padding-bottom:27px; }
+h2 { font-size:30px; color:#0190c8; font-weight:700; padding-bottom:20px; }
+
+.registerbutton { margin-top:10px; text-align:center;  }
+.registerbutton a, .registerbutton span.link{ display:inline-block; width:410px; height:75px; background:url(../images/button_orange.png) 0 0 no-repeat; font-size:32px; color:#fff; line-height:67px; font-weight:bold; 
+text-shadow:2px 0 2px #000000;
+-moz-text-shadow: 2px 0 2px #000000;
+-ms-text-shadow: 2px 0 2px #000000;
+-webkit-text-shadow: 2px 0 2px #000000;
+-o-text-shadow: 2px 0 2px #000000;
+}
+
+.registerbutton a:hover, .registerbutton span:hover.link{ text-decoration:none; }
+
+.gray01 { background-color:#e8eaea; padding-bottom:0px; }
+.gray01 .middle_section{ background:url(../images/bottom_line_s.png) 0 bottom repeat-x; padding-bottom:20px; }
+.date_text { color:#0190c8; font-size:30px; font-weight:800; text-align:center; padding-bottom:10px; }
+.date_time { color:#7e7e7e; font-size:20px; text-align:center; padding-bottom:20px; }
+.calender { width:82px; height:82px; margin:0 auto; }
+
+.brown-box { background-color:#34302d; padding-top:0px; padding-bottom:0px; }
+.gray02 { background-color:#e8eaea; }
+
+.name_group {  text-align:center; box-sizing:border-box; padding:20px 0; }
+.name_group p{ text-align:left; color:#616161; }
+
+.picture_1 {  border: 1px solid #d1d1d1; height: auto; margin:0 auto 19px;  width: 136px; position:relative; }
+.picture_1 img{ width:100%; height:auto; }
+.picture_1::after {
+    background: rgba(0, 0, 0, 0) url("../images/arrow_bottom_line.png") no-repeat scroll center 0;
+    bottom:0;
+    content: "";
+    height: 11px;
+    left: -1px;
+	right:-1px;
+    position: absolute;
+    width:auto;
+	display:none;
+}
+
+.webinar-white { text-align:center; padding:40px 0px; }
+.webinar-white h2{ border-bottom:#dadada 1px solid; margin-bottom:24px; }
+
+.webinar-grayblack { background-color:#e8eaea; padding-top:0px;  }
+.webinar_fourabout { background-color:#2b3336; text-align:center; padding:20px 20px; margin:0 0px 60px; position:relative; }
+.webinar_fourabout ul{ margin:0px; }
+.webinar_fourabout strong{ color:#FFF; font-weight:700; }
+.webinar_fourabout h2{ font-size:30px; color:#ffffff; background:url(../images/line_bottom.png) 0 bottom repeat-x; margin-bottom:20px; }
+
+
+.webinar_fourabout:before {
+    background:url(../images/trangle_top.png) 0 0 no-repeat;
+	background-size:100% auto;
+    content: "";
+    height: 23px;
+    left: 0;
+    position: absolute;
+    top: -23px;
+    width: 100%;
+	
+}
+
+.webinar_fourabout:after {
+    background:url(../images/trangle_bottom.png) 0 0 no-repeat;
+	background-size:100% auto;
+    content: "";
+    height: 23px;
+    left: 0;
+    position: absolute;
+    bottom: -23px;
+    width: 100%;
+	
+}
+
+
+.footer-white { background:#fff; text-align:center; border-top:#d1d1d1 1px solid; }
+.warning-img { margin-bottom:15px; }
+.warning-img img{ display:inline-block; }
+.footer-gray p { color:#808080; font-size:13px; line-height:normal; margin-bottom:10px; }
+
+/*footer css */
+
+footer {
+	text-align:center;
+	/*max-width:800px;*/
+	margin:0 auto;
+	background:#000;
+	float:left;
+	width:100%;
+}
+
+footer ul {
+	margin:0px;
+}
+footer li {
+	display:inline-block;
+	font-size:18px;
+	text-transform:uppercase;
+	padding:10px 2px;
+	background:url(../images/footer-li-bg.jpg) right center no-repeat;
+	margin:0px;
+}
+footer li:last-child {
+	background:none;
+}
+footer li a {
+	color:#fff;
+	margin-right:6px;
+}
+footer li a:hover {
+	text-decoration:underline;
+}
+
+/*footer css */
+
+@media ( max-width:639px ){
+	
+	img { max-width:100%; height:auto; }
+	.header-bg .top_txt { font-size:24px;  padding-bottom:17px;  }
+	
+	.full { padding:10px 0px; }
+	.full.footer-white { padding:20px 0px; }
+	
+	.middle_section { width:100%; }
+	.middle_section { width:90%; }
+	.name_group { width:100%; margin:0px auto 0; }	
+	h2 { font-size:25px; padding-bottom:12px; }
+	.light-gray { padding-bottom:40px; padding-top:0px; }
+	
+	.webinar_fourabout::before { top:-21px; }
+	.webinar_fourabout { margin-bottom:40px; }
+	
+	.registerbutton a, .registerbutton span.link{ height:41px; line-height:normal; font-size:21px; width:300px; background-size:100% auto; padding:15px 0 2px; display:block; line-height:25px; margin:0 auto;  }	
+	
+	#footer li { font-size:11px; }
+}
+
+@media ( max-width:479px ){
+	.title { font-size:19px; }
+	h1 { font-size:17px; }
+	.white-bg p { font-size:18px; }
+	.header-bg p { font-size:13px; }
+	.header-bg .top_txt { font-size:17px;  padding-bottom:17px;  }
+	
+	.webinar_fourabout::before { top:-14px; } 
+	.webinar_fourabout h2 { font-size:23px; }
+	
+	.full { padding:20px 0px; }
+	.full.brown-box { padding:0px;}
+	.date_text { font-size:25px; }
+	.name_group { margin:0px auto 0; padding:10px 0px; }
+	
+	
+	
+	.warning-img { width:89%; margin:0 auto 15px; }
+	.calender { width:60px; height:82px; }
+}

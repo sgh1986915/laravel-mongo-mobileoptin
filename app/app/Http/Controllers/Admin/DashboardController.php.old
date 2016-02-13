@@ -1,0 +1,70 @@
+<?php
+
+namespace MobileOptin\Http\Controllers\Admin;
+
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Redirect;
+use MobileOptin\Http\Controllers\Controller;
+use MobileOptin\Models\Campaigns;
+use MobileOptin\Models\CampaignsTemplates;
+use MyProject\Proxies\__CG__\stdClass;
+use PhpSpec\Exception\Exception;
+
+class DashboardController extends Controller {
+    /*
+      |--------------------------------------------------------------------------
+      | Home Controller
+      |--------------------------------------------------------------------------
+      |
+      | This controller renders your application's "dashboard" for users that
+      | are authenticated. Of course, you are free to change or remove the
+      | controller as you wish. It is just here to get your app started!
+      |
+     */
+
+    /**
+     * Create a new controller instance.
+     *
+     * @return void
+     */
+    function __construct() {
+        parent::__construct();
+    }
+
+    /**
+     * Show the application dashboard to the user.
+     *
+     * @return Response
+     */
+    public function index() {
+
+        \SEOMeta::setTitle('dashboard');
+        \SEOMeta::setDescription('meta desc');
+        \SEOMeta::addKeyword([ 'key1', 'key2', 'key3']);
+        $data = ['admin_navigation' => true];
+        return \Response::view('admin.dashboard', $data);
+    }
+
+    public function modules() {
+        $data = ['admin_navigation' => true];
+        $data['modules'] = [];
+        $modules = \MobileOptin\Models\Modules::all();
+        $data['modules'] = $modules;
+        return \Response::view('admin.modules', $data);
+    }
+    
+    public function activateModule($id,$status){
+        $module = \MobileOptin\Models\Modules::where('id',$id)->first();
+    
+        if($status == "true"){
+            $module->status = 1;
+        }else{
+            $module->status = 0;
+        }
+        if($module->save())
+            return json_encode(1);
+        else
+            return json_encode($module->getErrors());
+    }
+
+}

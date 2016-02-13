@@ -1,0 +1,269 @@
+@extends('layouts/main')
+
+@section('content')
+
+    <div class="row">
+        <div class="col-md-6 ">
+            <h1 class="category_header">Add Integration</h1>
+        </div>
+        <div class="col-md-6 text-right pt-26">
+
+        </div>
+    </div>
+
+    <div id="creator_container">
+
+        <div class="row">
+            <div class="col-md-6">
+            @if(isset($integration) && $integration->id != 0)
+              {!! Form::model($integration, ['route' => ['upsert_integration', $integration->id], 'class' => 'form-horizontal']) !!}
+            @else
+              {!! Form::open(array('route'=>'upsert_integration', 'class' => 'form-horizontal')) !!}
+            @endif
+                {!! Form::hidden('id', $integration->id,['id'=>'integration_id']) !!}
+                {!! Form::hidden('redirect_api', 0, ['id'=>'redirect_api']) !!}
+           
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div id="editing_template">
+                                <form class="form-horizontal" id="save_User_template_form">
+                                    <div class="form-group row">
+                                        <label for="api_key" class="col-sm-4 control-label">Type</label>
+                                        <div class="col-sm-8">
+                                            {{--
+                                               {!! Form::select('type_id', $types, $integration->type_id,['id'=>'type_id','placeholder'=>'Select a type','class'=>'form-control']) !!}
+                                            --}}
+                                            <select name="type_id" id="type_id" placeholder="Select a type" class="form-control">
+                                                @foreach($integration_types as $t)
+                                                    <option value="{{ $t->id }}" {{ $integration->type_id == $t->id ? 'selected' : '' }}>{{ $t->name }}</option>
+                                                @endforeach
+                                            </select>
+                                        </div>  
+                                    </div>
+                                    
+                                    <!--  ZAPIER : STEP 1 -->
+                                    <div class="form-group row @if ($integration->type_id != 4) hidden @endif zapier-step">
+                                        <label class="col-sm-4 control-label"></label>
+                                        <div class="col-sm-8">
+                                        	<b>STEP 1:</b> Click the button below to request access to the Mobile Optin Zap <br>
+                                            <a href="https://zapier.com/developer/invite/29464/0288e2433ed17aa7c8a16cae9e7fd197/" target="_blank" class="btn btn-primary">Request access</a>
+                                        </div>
+                                    </div>
+                                    
+                                    <!--  ZAPIER : STEP 2 -->
+                                    <div class="form-group row @if ($integration->type_id != 4) hidden @endif zapier-step">
+                                        <label class="col-sm-4 control-label"></label>
+                                        <div class="col-sm-8">
+                                        	<b>STEP 2:</b> Watch the entire video on how to use this integration here <br>
+                                            <a href="#" target="_blank" class="btn btn-primary">Start video</a>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group row @if ($integration->type_id == 4) hidden @endif zapier-step-three" id="nameRow">
+                                        <label for="terms_link" class="col-sm-4 control-label">Name</label>
+                                        <div class="col-sm-8">
+                                            {!! Form::text('name', Input::old('name'), array('class' => 'form-control',  'maxlength' => '200')) !!}
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group row @if ($integration->type_id == 2 | $integration->type_id == 3 || $integration->type_id == 4) hidden @endif" id="apiKeyRow">
+                                        <label for="api_key" class="api_key_label col-sm-4 control-label @if($integration->type_id == 10) hidden @endif">API key</label>
+                                        <label for="api_key" class="sendreach col-sm-4 control-label @if($integration->type_id != 10) hidden @endif ">Public Key</label>
+                                        <div class="col-sm-8">
+                                               {!! Form::text('api_key', Input::old('api_key'), array('id'=>'api_key','class' => 'form-control',  'maxlength' => '200')) !!}
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="form-group row @if (!in_array($integration->type_id, array(3, 8, 9, 10))) hidden @endif">
+                                        <label for="authorization" class="col-sm-4 control-label">
+                                        	<span class="sendLane-domaine @if($integration->type_id != 8) hidden @endif ">Sendlane URL</span>
+                                        	<span class="webinarjam-webicode @if($integration->type_id != 9) hidden @endif ">Webicode</span>
+                                        	<span class="other-access-token @if($integration->type_id != 3) hidden @endif ">Access token</span>
+                                        	<span class="sendreach-private-key @if($integration->type_id != 10) hidden @endif ">Private Key</span>
+                                        </label>
+                                        <div class="col-sm-8">
+                                               {!! Form::text('authorization', Input::old('authorization'), array('id'=>'authorization','class' => 'form-control',  'maxlength' => '50')) !!}
+                                        </div>  
+                                    </div>
+                                              
+                                    <div class="form-group row @if (!in_array($integration->type_id, array(3, 8, 9))) hidden @endif">
+                                        <label for="organizerKey" class="col-sm-4 control-label">
+                                        	<span class="sendLane-domaine @if($integration->type_id != 8) hidden @endif ">Hash</span>
+                                        	<span class="other-access-token @if($integration->type_id != 3) hidden @endif ">Organizer Key</span>
+                                        	<span class="webinarjam-memberid @if($integration->type_id != 9) hidden @endif ">Member ID</span>
+                                        </label>
+                                        <div class="col-sm-8">
+                                        	@if(isset($gotoWebinar_account) && $gotoWebinar_account)
+                                        		{!! Form::text('organizerKey', $organizer_key, array('id'=>'organizerKey','class' => 'form-control',  'maxlength' => '200')) !!}
+                                       		@else
+                                       		 	{!! Form::text('organizerKey', Input::old('organizerKey'), array('id'=>'organizerKey', 'class' => 'form-control',  'maxlength' => '200')) !!}
+                                       		@endif
+                                        </div>  
+                                    </div>
+
+                                    <div class="form-group row @if ($integration->type_id != 4) hidden @endif">
+                                        <label for="api_key" class="col-sm-4 control-label">Local API key</label>
+                                        <div class="col-sm-8">
+                                            {!! Form::text('local_api_key', Input::old('local_api_key'), array('id'=>'local_api_key','class' => 'form-control', 'maxlength' => '200', 'placeholder' => 'API Key will be automatically generated', 'disabled' => 'disabled')) !!}
+                                            @if(isset($integration->local_api_key))
+                                                <p class="help-block">Use this API key on Zapier to connect to this integration.</p>
+                                            @endif
+                                        </div>
+                                    </div>
+
+
+                                    {{-- TODO: remove FALSE conditional --}}
+                                    <div class="form-group row @if ($integration->type_id != 2) hidden @endif">
+                                        <label for="api_key" class="col-sm-4 control-label">Connection</label>
+                                        <div class="col-sm-8">
+                                            {{-- @if($integration->type_id == 2 && $integration->authorization && $integration->organizerKey) --}}
+                                            @if(isset($aweber_account) && $aweber_account)
+                                                Connected to Aweber account.
+                                                {{-- <a id="aweber_oauth" href="https://auth.aweber.com/1.0/oauth/authorize_app/{{ $integration_types[2]->app_id }}?oauth_callback={{ url('integrations/aweber-oauth', ['integration' => $integration->id]) }}" class="btn btn-default">Connect to New Aweber Account</a> --}}
+                                                <button type="submit" id="aweber_oauth" name="aweber_oauth" value="1" class="btn btn-default">Connect to New Aweber Account</button>
+                                            @else
+                                                {{-- <a id="aweber_oauth" href="https://auth.aweber.com/1.0/oauth/authorize_app/{{ $integration_types[2]->app_id }}?oauth_callback={{ url('integrations/aweber-oauth', ['integration' => $integration->id]) }}" class="btn btn-default">Connect to Aweber</a> --}}
+                                                <button type="submit" id="aweber_oauth" name="aweber_oauth" value="1" class="btn btn-default">Connect to Aweber</button>
+
+                                            @endif
+                                        </div>
+                                    </div>
+                                    
+                                    {{-- TODO: remove FALSE conditional --}}
+                                    <div class="form-group row @if ($integration->type_id != 3) hidden @endif" id="goto-webinar-container">
+                                        <label for="api_key_goto" class="col-sm-4 control-label">Connection</label>
+                                        <div class="col-sm-8">
+                                        	<button type="submit" id="goto_webinar" name="goto_webinar" value="1" class="btn btn-default">Connect to New Webinar Account</button>
+                                        </div>
+                                    </div>
+
+				   <div class="form-group row" id="messages" style="display:none">
+					<div class="col-sm-12">
+						<div class="alert alert-warning">
+    						We are currently working with flutter mail developer to have this integration ready for you within 48 hours.  						</div>
+					</div>
+				   </div>	
+
+                                    <div class="row btn-container" id="submitRow">
+                                        <div class="col-md-12">
+                                            <button type="submit" id="save_tmp_changes3" class="btn  btn-orange">Save</button>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+            </div>
+        </div>
+    </div>
+  
+@endsection
+
+@section('javascript')
+<script type="text/javascript">
+   $(document).ready(function(){
+
+	 var _btn_container               = $('.btn-container'),
+	 	 _goto_container              = $('#goto-webinar-container'),
+	 	 _redirect_api                = $('#redirect_api'),
+ 	 	 _zapier_step                 = $('.zapier-step');
+	 	 
+     $('#type_id').change(function(){
+         
+    	 if($(this).val() == 10){
+         	$('.api_key_label').addClass('hidden');
+         	$('.sendreach').removeClass('hidden');
+         }else{
+         	$('.sendreach').addClass('hidden');
+         	$('.api_key_label').removeClass('hidden');
+         }
+         
+        if ($(this).val() == 2) {
+            $('#aweber_oauth').parents('.form-group').removeClass('hidden');
+            $('#authorization, #organizerKey, #api_key').parents('.form-group').addClass('hidden');
+            $('#local_api_key').parents('.form-group').addClass('hidden');
+            _zapier_step.addClass('hidden');
+            _btn_container.addClass('hidden');
+            _goto_container.addClass('hidden');
+            _redirect_api.val(2);
+        }
+        else if($(this).val() == 8){
+        	$('#authorization, #organizerKey').parents('.form-group').removeClass('hidden');
+           	$('#api_key').parents('.form-group').removeClass('hidden');
+           	$('#local_api_key').parents('.form-group').addClass('hidden');
+           	$('.sendLane-domaine').removeClass('hidden');
+            $('.other-access-token, .webinarjam-memberid, .webinarjam-webicode, .sendreach-private-key').addClass('hidden');
+            _zapier_step.addClass('hidden');
+            _btn_container.removeClass('hidden');
+            _goto_container.addClass('hidden');
+           	_redirect_api.val(0);
+        }
+        else if($(this).val() == 9){
+        	$('#authorization, #organizerKey').parents('.form-group').removeClass('hidden');
+           	$('#api_key').parents('.form-group').removeClass('hidden');
+           	$('#local_api_key').parents('.form-group').addClass('hidden');
+           	$('.webinarjam-memberid, .webinarjam-webicode').removeClass('hidden');
+            $('.other-access-token, .sendLane-domaine, .sendreach-private-key, .sendreach-private-key').addClass('hidden');
+            _zapier_step.addClass('hidden');
+            _btn_container.removeClass('hidden');
+            _goto_container.addClass('hidden');
+           	_redirect_api.val(0);
+        }else if($(this).val() == 10){
+            //SendReach
+        	$(' #organizerKey').parents('.form-group').addClass('hidden');
+            $('#api_key, #authorization').parents('.form-group').removeClass('hidden');
+            $('#local_api_key').parents('.form-group').addClass('hidden');
+            $('#aweber_oauth').parents('.form-group').addClass('hidden');
+            $('.sendreach-private-key').removeClass('hidden');
+            $('.sendLane-domaine, .webinarjam-memberid, .webinarjam-webicode, .other-access-token').addClass('hidden');
+            _zapier_step.addClass('hidden');
+            _btn_container.removeClass('hidden');
+            _goto_container.addClass('hidden');
+            _redirect_api.val(0);
+        } else if ($(this).val() == 3) {
+            // GOTO Webinar
+            $('#authorization, #organizerKey').parents('.form-group').addClass('hidden');
+            $('#api_key').parents('.form-group').addClass('hidden');
+            $('#local_api_key').parents('.form-group').addClass('hidden');
+            $('#aweber_oauth').parents('.form-group').addClass('hidden');
+            $('.sendLane-domaine, .webinarjam-memberid, .webinarjam-webicode, .sendreach-private-key').addClass('hidden');
+            $('.other-access-token').removeClass('hidden');
+            _zapier_step.addClass('hidden');
+            _btn_container.addClass('hidden');
+            _goto_container.removeClass('hidden');
+            _redirect_api.val(3);
+        } else if ($(this).val() == 4) {
+        	// Zapier
+            $('#authorization, #organizerKey, #api_key').parents('.form-group').addClass('hidden');
+            $('#local_api_key').parents('.form-group').removeClass('hidden');
+            $('#aweber_oauth').parents('.form-group').addClass('hidden');
+            _zapier_step.removeClass('hidden');
+            _btn_container.removeClass('hidden');
+            _goto_container.addClass('hidden');
+            _redirect_api.val(0);
+        } else if($(this).val() == 5){
+        	// MailChimp
+        	$('#authorization, #organizerKey').parents('.form-group').addClass('hidden');
+            $('#api_key').parents('.form-group').removeClass('hidden');
+            $('#local_api_key').parents('.form-group').addClass('hidden');
+            $('#aweber_oauth').parents('.form-group').addClass('hidden');
+            _zapier_step.addClass('hidden');
+            _btn_container.removeClass('hidden');
+            _goto_container.addClass('hidden');
+            _redirect_api.val(0);
+        } else {
+            $('#authorization, #organizerKey').parents('.form-group').addClass('hidden');
+            $('#api_key').parents('.form-group').removeClass('hidden');
+            $('#local_api_key').parents('.form-group').addClass('hidden');
+            $('#aweber_oauth').parents('.form-group').addClass('hidden');
+            _zapier_step.addClass('hidden');
+            _btn_container.removeClass('hidden');
+            _goto_container.addClass('hidden');
+            _redirect_api.val(0);
+        }
+        
+        $('#api_key, #authorization, #organizerKey').val('');
+     });
+   });
+</script>
+@endsection
